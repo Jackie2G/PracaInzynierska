@@ -9,5 +9,7 @@ namespace PracaInzynierska.Areas.Identity.Data
     // Add profile data for application users by adding properties to the PracaInzynierskaUser class
     public class PracaInzynierskaUser : IdentityUser
     {
+        [PersonalData]
+        public string userName { get; set; }
     }
 }
