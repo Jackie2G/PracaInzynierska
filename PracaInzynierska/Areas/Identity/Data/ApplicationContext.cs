@@ -9,9 +9,9 @@ using PracaInzynierska.Areas.Identity.Data;
 
 namespace PracaInzynierska.Data
 {
-    public class PracaInzynierskaContext : IdentityDbContext<PracaInzynierskaUser>
+    public class ApplicationContext : IdentityDbContext<ApplicationUser>
     {
-        public PracaInzynierskaContext(DbContextOptions<PracaInzynierskaContext> options)
+        public ApplicationContext(DbContextOptions<ApplicationContext> options)
             : base(options)
         {
         }

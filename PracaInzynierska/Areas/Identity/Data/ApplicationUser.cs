@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Identity;
 
 namespace PracaInzynierska.Areas.Identity.Data
 {
-    // Add profile data for application users by adding properties to the PracaInzynierskaUser class
-    public class PracaInzynierskaUser : IdentityUser
+    // Add profile data for application users by adding properties to the ApplicationUser class
+    public class ApplicationUser : IdentityUser
     {
         [PersonalData]
-        public string userName { get; set; }
+        public string nickName { get; set; }
     }
 }

@@ -7,6 +7,10 @@
     "mssql2": {
       "type": "mssql",
       "connectionId": "PracaInzynierskaContextConnection"
+    },
+    "mssql3": {
+      "type": "mssql",
+      "connectionId": "ApplicationContextConnection"
     }
   }
 }

@@ -19,12 +19,14 @@ namespace PracaInzynierska.Areas.Identity
         public void Configure(IWebHostBuilder builder)
         {
             builder.ConfigureServices((context, services) => {
-                services.AddDbContext<PracaInzynierskaContext>(options =>
+                services.AddDbContext<ApplicationContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("AccountConnection")));
 
-                services.AddDefaultIdentity<PracaInzynierskaUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<PracaInzynierskaContext>();
+                services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    .AddEntityFrameworkStores<ApplicationContext>();
+
+                services.AddMvc();
 
                 //services.AddSingleton<IEmailSender, EmailSender>();
                 //services.Configure<AuthMessageSenderOptons>
