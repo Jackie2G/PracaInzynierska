@@ -28,6 +28,8 @@ namespace PracaInzynierska.Areas.Identity
 
                 services.AddMvc();
 
+                services.AddHttpContextAccessor();
+
                 //services.AddSingleton<IEmailSender, EmailSender>();
                 //services.Configure<AuthMessageSenderOptons>
                 //services.AddTransient<IEmailSender, EmailSender>();

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PracaInzynierska.Migrations
 {
-    public partial class CustomUserData : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -153,6 +153,48 @@ namespace PracaInzynierska.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "TrainingHistory",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
+                    ExercisesID = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TrainingHistory", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TrainingHistory_AspNetUsers_Id",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Exercises",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ExerciseName = table.Column<int>(nullable: false),
+                    Weight = table.Column<int>(nullable: false),
+                    Reps = table.Column<int>(nullable: false),
+                    ExerciseDone = table.Column<bool>(nullable: false),
+                    TrainingHistoryId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Exercises", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Exercises_TrainingHistory_TrainingHistoryId",
+                        column: x => x.TrainingHistoryId,
+                        principalTable: "TrainingHistory",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -191,6 +233,11 @@ namespace PracaInzynierska.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Exercises_TrainingHistoryId",
+                table: "Exercises",
+                column: "TrainingHistoryId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -211,7 +258,13 @@ namespace PracaInzynierska.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Exercises");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "TrainingHistory");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

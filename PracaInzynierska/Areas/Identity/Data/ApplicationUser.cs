@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using PracaInzynierska.Models;
 
 namespace PracaInzynierska.Areas.Identity.Data
 {
@@ -11,5 +12,9 @@ namespace PracaInzynierska.Areas.Identity.Data
     {
         [PersonalData]
         public string nickName { get; set; }
+
+        //public virtual TrainingHistory TrainingHistory { get; set; }
+
+        //public virtual ICollection<TrainingHistory> trainingHistories { get; set; }
     }
 }

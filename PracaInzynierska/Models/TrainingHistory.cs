@@ -1,0 +1,43 @@
+﻿using EllipticCurve;
+using Microsoft.AspNetCore.Http;
+using PracaInzynierska.Areas.Identity.Data;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
+
+namespace PracaInzynierska.Models
+{
+    public class TrainingHistory
+    {
+        //    private readonly IHttpContextAccessor _httpContextAccessor;
+
+
+        //    public TrainingHistory(IHttpContextAccessor httpContextAccessor)
+        //    {
+        //        _httpContextAccessor = httpContextAccessor;
+        //    }
+
+        //    public void GetUserId()
+        //    {
+        //        var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //        //moze zadziala
+        //    }
+        //}
+
+        //[Key, ForeignKey("ApplicationUser")]
+        //public string UserId { get; set; }
+        //[ForeignKey("ApplicationUser")]
+        public string Id { get; set; }
+        [ForeignKey("Id")]
+        public virtual ApplicationUser User { get; set; }
+        public DateTime Date { get; set; }
+        //public bool Done { get; set; }
+        public bool ExercisesID { get; set; }
+
+        public ICollection<Exercises> Exercises { get; set; }
+    }
+}

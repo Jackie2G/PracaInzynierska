@@ -10,8 +10,8 @@ using PracaInzynierska.Data;
 namespace PracaInzynierska.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200908191608_CustomUserData")]
-    partial class CustomUserData
+    [Migration("20200915172915_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -224,6 +224,51 @@ namespace PracaInzynierska.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("PracaInzynierska.Models.Exercises", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<bool>("ExerciseDone")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ExerciseName")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Reps")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TrainingHistoryId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Weight")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("TrainingHistoryId");
+
+                    b.ToTable("Exercises");
+                });
+
+            modelBuilder.Entity("PracaInzynierska.Models.TrainingHistory", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("ExercisesID")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TrainingHistory");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -271,6 +316,22 @@ namespace PracaInzynierska.Migrations
                     b.HasOne("PracaInzynierska.Areas.Identity.Data.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PracaInzynierska.Models.Exercises", b =>
+                {
+                    b.HasOne("PracaInzynierska.Models.TrainingHistory", null)
+                        .WithMany("Exercises")
+                        .HasForeignKey("TrainingHistoryId");
+                });
+
+            modelBuilder.Entity("PracaInzynierska.Models.TrainingHistory", b =>
+                {
+                    b.HasOne("PracaInzynierska.Areas.Identity.Data.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
