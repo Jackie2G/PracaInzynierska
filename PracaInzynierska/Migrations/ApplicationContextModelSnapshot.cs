@@ -173,6 +173,9 @@ namespace PracaInzynierska.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -206,6 +209,9 @@ namespace PracaInzynierska.Migrations
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
 
+                    b.Property<string>("WeightCategory")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("nickName")
                         .HasColumnType("nvarchar(max)");
 
@@ -238,31 +244,38 @@ namespace PracaInzynierska.Migrations
                     b.Property<int>("Reps")
                         .HasColumnType("int");
 
-                    b.Property<string>("TrainingHistoryId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Weight")
+                    b.Property<int>("Series")
                         .HasColumnType("int");
 
-                    b.HasKey("ID");
+                    b.Property<double>("Weight")
+                        .HasColumnType("float");
 
-                    b.HasIndex("TrainingHistoryId");
+                    b.HasKey("ID");
 
                     b.ToTable("Exercises");
                 });
 
             modelBuilder.Entity("PracaInzynierska.Models.TrainingHistory", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("TrainingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("ExercisesID")
-                        .HasColumnType("bit");
+                    b.Property<int>("ExercisesID")
+                        .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("TrainingId");
+
+                    b.HasIndex("ExercisesID");
+
+                    b.HasIndex("Id");
 
                     b.ToTable("TrainingHistory");
                 });
@@ -318,20 +331,17 @@ namespace PracaInzynierska.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PracaInzynierska.Models.Exercises", b =>
-                {
-                    b.HasOne("PracaInzynierska.Models.TrainingHistory", null)
-                        .WithMany("Exercises")
-                        .HasForeignKey("TrainingHistoryId");
-                });
-
             modelBuilder.Entity("PracaInzynierska.Models.TrainingHistory", b =>
                 {
-                    b.HasOne("PracaInzynierska.Areas.Identity.Data.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("Id")
+                    b.HasOne("PracaInzynierska.Models.Exercises", null)
+                        .WithMany("trainingHistories")
+                        .HasForeignKey("ExercisesID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("PracaInzynierska.Areas.Identity.Data.ApplicationUser", "User")
+                        .WithMany()
+                        .HasForeignKey("Id");
                 });
 #pragma warning restore 612, 618
         }

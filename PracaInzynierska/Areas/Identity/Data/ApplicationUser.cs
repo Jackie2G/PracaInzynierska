@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using PracaInzynierska.Models;
@@ -12,6 +13,12 @@ namespace PracaInzynierska.Areas.Identity.Data
     {
         [PersonalData]
         public string nickName { get; set; }
+
+        [PersonalData]
+        public string Gender { get; set; }
+
+        [PersonalData]
+        public string WeightCategory { get; set; }
 
         //public virtual TrainingHistory TrainingHistory { get; set; }
 

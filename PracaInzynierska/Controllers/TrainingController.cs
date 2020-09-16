@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 //using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PracaInzynierska.Data;
@@ -11,6 +13,13 @@ using PracaInzynierska.Models;
 
 namespace PracaInzynierska.Controllers
 {
+
+    public class Hold
+    {
+        public DateTime date;
+    }
+
+
     public class TrainingController : Controller
     {
         private readonly ApplicationContext _db;
@@ -18,6 +27,12 @@ namespace PracaInzynierska.Controllers
         public TrainingHistory training { get; set; }
         [BindProperty]
         public Exercises exercise { get; set; }
+        [BindProperty]
+        public DateTime trainingDay { get; set; } 
+        [BindProperty]
+        public string test1 { get; set; }
+        [BindProperty]
+        public Hold hold { get; set; }
 
         public TrainingController(ApplicationContext db)
         {
@@ -45,6 +60,26 @@ namespace PracaInzynierska.Controllers
         }
 
         [HttpPost]
+        //[ValidateAntiForgeryToken]
+        public IActionResult SetData(string data)
+        {
+            //Debug.WriteLine(test1);
+            //Debug.WriteLine(trainingDay);
+            //test1 = Request.Query["test"];
+            //var test = form["test"];
+            //string testtt = HttpContext.Request.Form["test"];
+            //return View();
+            //return Json(new { data = test1 });
+            //return "dane" + data;
+            trainingDay = Convert.ToDateTime(data.Replace("/", ".") + " 00:00:00");
+            test1 = data;
+            hold = new Hold();
+            hold.date = Convert.ToDateTime(data.Replace("/", ".") + " 00:00:00");
+            training.Date = Convert.ToDateTime(data.Replace("/", ".") + " 00:00:00");
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult UpsertExercise()
         {
@@ -52,11 +87,27 @@ namespace PracaInzynierska.Controllers
             {
                 if (exercise.ID == 0)
                 {
+                    training.Id = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    Debug.WriteLine(training.Date.ToString());
+                    //training.Date = SetData(data);
+                    if (trainingDay == Convert.ToDateTime("01.01.0001 00:00:00"))
+                    {
+                        training.Date = DateTime.Now;
+                    }
+                    else
+                    {
+                        training.Date = trainingDay;
+                    }
+                    //training.Date = DateTime.Now;
+                    training.ExercisesID = exercise.ID;
+                    exercise.trainingHistory = training;
+
+                    //var test = Request.Form["datepicker"];
+                    //Debug.Write(test1.ToString());
+
                     _db.ExercisesDb.Add(exercise);
-                    //training.
-                    //training.User = "test";
-                    //training.
-                    //_db.Trainings.Add("test", DateTime.Now, 1);
+                    _db.TrainingsDb.Add(training);
+                    
                     _db.SaveChanges();
                 }
                 else
@@ -64,35 +115,16 @@ namespace PracaInzynierska.Controllers
                     _db.ExercisesDb.Update(exercise);
                     _db.SaveChanges();
                 }
-                //_db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(exercise);
         }
 
-        public IActionResult Upsert(string? id)
-        {
-            training = new TrainingHistory();
-            if (id == null)
-            {
-                return View(training);
-            }
-            training = _db.TrainingsDb.FirstOrDefault(u => u.Id == id);
-            if (training == null)
-            {
-                return NotFound();
-            }
-            return View(training);
-        }
-
-        //#region API Calls
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            //Debug.WriteLine(_db.ExercisesDb.ToListAsync().ToString());
-            var data =  Json(new { data = await _db.ExercisesDb.ToListAsync() });
-            //Debug.WriteLine(data.Value.ToString());
-            return data;
+            var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            return Json(new { data = await _db.ExercisesDb.Where(x => x.trainingHistory.Id.Equals(user)).ToListAsync() });
         }
 
         [HttpDelete]
@@ -107,6 +139,11 @@ namespace PracaInzynierska.Controllers
             await _db.SaveChangesAsync();
             return Json(new { success = true, message = "Record deleted" });
         }
-        //#endregion
+
+        //[HttpPost]
+        //public async Task<IActionResult> SetData()
+        //{
+
+        //}
     }
 }

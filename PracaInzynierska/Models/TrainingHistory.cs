@@ -31,13 +31,19 @@ namespace PracaInzynierska.Models
         //[Key, ForeignKey("ApplicationUser")]
         //public string UserId { get; set; }
         //[ForeignKey("ApplicationUser")]
+
+        //public int TrainingHistoryId { get; set; }
+        //[ForeignKey("AspNetUsers")]
+        //public int TrainingId { get; set; }
+        [Key]
+        public int TrainingId { get; set; }
         public string Id { get; set; }
         [ForeignKey("Id")]
         public virtual ApplicationUser User { get; set; }
         public DateTime Date { get; set; }
         //public bool Done { get; set; }
-        public bool ExercisesID { get; set; }
+        public int ExercisesID { get; set; }
 
-        public ICollection<Exercises> Exercises { get; set; }
+        //public ICollection<Exercises> Exercises { get; set; }
     }
 }

@@ -2,6 +2,9 @@
 
 $(document).ready(function () {
     loadDataTable();
+    $('#datepicker').datepicker({
+        dateFormat: 'dd/mm/yy'
+    });
 });
 
 function loadDataTable() {
@@ -12,9 +15,10 @@ function loadDataTable() {
             "datatype": "json"
         },
         "columns": [
-            { "data": "name", "width": "20%" },
-            { "data": "weight", "width": "20%" },
-            { "data": "reps", "width": "20%" },
+            { "data": "name", "width": "30%" },
+            { "data": "series", "width": "10%" },
+            { "data": "reps", "width": "10%" },
+            { "data": "weight", "width": "10%" },
             { "data": "done", "width": "10%" },
             {
                 "data": "id",
@@ -29,7 +33,7 @@ function loadDataTable() {
                             Delete
                         </a>
                         </div>`;
-                }, "width": "40%"
+                }, "width": "30%"
             }
         ],
         "language": {
