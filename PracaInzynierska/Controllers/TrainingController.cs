@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,7 @@ using PracaInzynierska.Models;
 
 namespace PracaInzynierska.Controllers
 {
-
+    [Serializable]
     public class Hold
     {
         public DateTime date;
@@ -31,17 +32,18 @@ namespace PracaInzynierska.Controllers
         public DateTime trainingDay { get; set; } 
         [BindProperty]
         public string test1 { get; set; }
-        [BindProperty]
-        public Hold hold { get; set; }
+        //Hold hold = new Hold();
 
         public TrainingController(ApplicationContext db)
         {
             _db = db;
         }
 
-        public IActionResult Index()
+        public IActionResult Index(Hold hold)
         {
-            return View();
+            
+            //this.HttpContext.Session.SetString("date", hold.date.ToString());
+            return View(hold);
         }
 
         public IActionResult UpsertExercise(int? id)
@@ -71,18 +73,21 @@ namespace PracaInzynierska.Controllers
             //return View();
             //return Json(new { data = test1 });
             //return "dane" + data;
-            trainingDay = Convert.ToDateTime(data.Replace("/", ".") + " 00:00:00");
+            var time = Convert.ToDateTime(data.Replace("/", ".") + " 00:00:00");
             test1 = data;
-            hold = new Hold();
-            hold.date = Convert.ToDateTime(data.Replace("/", ".") + " 00:00:00");
+            //hold = new Hold();
+            //hold.date = Convert.ToDateTime(data.Replace("/", ".") + " 00:00:00");
             training.Date = Convert.ToDateTime(data.Replace("/", ".") + " 00:00:00");
-            return RedirectToAction("Index");
+            //this.HttpContext.Session.SetString("date", hold.date.ToString());
+            TempData["date"] = data;
+            return RedirectToAction("Index", new { hold = new Hold() {date = time} });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult UpsertExercise()
+        public IActionResult UpsertExercise(string data)
         {
+            //var test = Convert.ToDateTime(data.Replace("/", ".") + " 00:00:00");
             if (ModelState.IsValid)
             {
                 if (exercise.ID == 0)
