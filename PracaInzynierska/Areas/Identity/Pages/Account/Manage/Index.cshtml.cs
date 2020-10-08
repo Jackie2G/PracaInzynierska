@@ -38,9 +38,18 @@ namespace PracaInzynierska.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Nick")]
             public string nickName { get; set; }
 
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
+            //[Phone]
+            //[Display(Name = "Phone number")]
+            //public string PhoneNumber { get; set; }
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Weight category")]
+            public string WeightCategory { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Gender")]
+            public string Gender { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -53,7 +62,9 @@ namespace PracaInzynierska.Areas.Identity.Pages.Account.Manage
             Input = new InputModel
             {
                 nickName = user.nickName,
-                PhoneNumber = phoneNumber
+                //PhoneNumber = phoneNumber
+                WeightCategory = user.WeightCategory,
+                Gender = user.Gender
             };
         }
 
@@ -84,19 +95,29 @@ namespace PracaInzynierska.Areas.Identity.Pages.Account.Manage
             }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
-            {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
-                {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
-                }
-            }
+            //if (Input.PhoneNumber != phoneNumber)
+            //{
+            //    var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+            //    if (!setPhoneResult.Succeeded)
+            //    {
+            //        StatusMessage = "Unexpected error when trying to set phone number.";
+            //        return RedirectToPage();
+            //    }
+            //}
 
             if (Input.nickName != user.nickName)
             {
                 user.nickName = Input.nickName;
+            }
+
+            if (Input.Gender != user.Gender)
+            {
+                user.Gender = Input.Gender;
+            }
+
+            if (Input.WeightCategory != user.WeightCategory)
+            {
+                user.WeightCategory = Input.WeightCategory;
             }
 
             await _userManager.UpdateAsync(user);

@@ -19,10 +19,18 @@
                 <label asp-for="Input.nickName"></label>
                 <input asp-for="Input.nickName" class="form-control" />
             </div>
+            @*<div class="form-group">
+            <label asp-for="Input.PhoneNumber"></label>
+            <input asp-for="Input.PhoneNumber" class="form-control" />
+            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
-                <label asp-for="Input.PhoneNumber"></label>
-                <input asp-for="Input.PhoneNumber" class="form-control" />
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                <label asp-for="Input.Gender"></label>
+                <input asp-for="Input.Gender" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.WeightCategory"></label>
+                <input asp-for="Input.WeightCategory" class="form-control" />
             </div>
             <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
         </form>

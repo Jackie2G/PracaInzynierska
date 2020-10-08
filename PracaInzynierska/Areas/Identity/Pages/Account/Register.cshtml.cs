@@ -52,6 +52,16 @@ namespace PracaInzynierska.Areas.Identity.Pages.Account
             public string nickName { get; set; }
 
             [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Gender")]
+            public string Gender { get; set; }
+
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Weight Category")]
+            public string WeightCategory { get; set; }
+
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -83,7 +93,9 @@ namespace PracaInzynierska.Areas.Identity.Pages.Account
                 var user = new ApplicationUser {
                     nickName = Input.nickName,
                     UserName = Input.Email, 
-                    Email = Input.Email };
+                    Email = Input.Email,
+                    Gender = Input.Gender,
+                    WeightCategory = Input.WeightCategory};
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
