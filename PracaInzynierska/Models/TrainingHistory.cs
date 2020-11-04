@@ -40,6 +40,8 @@ namespace PracaInzynierska.Models
         public string Id { get; set; }
         [ForeignKey("Id")]
         public virtual ApplicationUser User { get; set; }
+        [DataType(DataType.Date)]
+        [Column(TypeName = "Date")]
         public DateTime Date { get; set; }
         //public bool Done { get; set; }
         public int ExercisesID { get; set; }

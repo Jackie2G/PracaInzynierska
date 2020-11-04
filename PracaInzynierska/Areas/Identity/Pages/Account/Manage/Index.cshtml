@@ -26,11 +26,19 @@
         </div>*@
             <div class="form-group">
                 <label asp-for="Input.Gender"></label>
-                <input asp-for="Input.Gender" class="form-control" />
+                <select asp-for="Input.Gender" class="form-control">
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>
             </div>
             <div class="form-group">
                 <label asp-for="Input.WeightCategory"></label>
-                <input asp-for="Input.WeightCategory" class="form-control" />
+                <select asp-for="Input.WeightCategory" class="form-control">
+                    @*@if (Input.Gender == Male)
+                    {
+
+                    }*@
+                </select>
             </div>
             <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
         </form>

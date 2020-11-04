@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
-//using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Microsoft.AspNetCore.DataProtection.XmlEncryption;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,8 @@ namespace PracaInzynierska.Controllers
     [Serializable]
     public class Hold
     {
-        public DateTime date;
+        [TempData]
+        public DateTime date { get; set; }
     }
 
 
@@ -32,6 +34,8 @@ namespace PracaInzynierska.Controllers
         public DateTime trainingDay { get; set; } 
         [BindProperty]
         public string test1 { get; set; }
+        [TempData]
+        public string date { get; set; }
         //Hold hold = new Hold();
 
         public TrainingController(ApplicationContext db)
@@ -61,27 +65,28 @@ namespace PracaInzynierska.Controllers
             return View(exercise);
         }
 
-        [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public IActionResult SetData(string data)
-        {
-            //Debug.WriteLine(test1);
-            //Debug.WriteLine(trainingDay);
-            //test1 = Request.Query["test"];
-            //var test = form["test"];
-            //string testtt = HttpContext.Request.Form["test"];
-            //return View();
-            //return Json(new { data = test1 });
-            //return "dane" + data;
-            var time = Convert.ToDateTime(data.Replace("/", ".") + " 00:00:00");
-            test1 = data;
-            //hold = new Hold();
-            //hold.date = Convert.ToDateTime(data.Replace("/", ".") + " 00:00:00");
-            training.Date = Convert.ToDateTime(data.Replace("/", ".") + " 00:00:00");
-            //this.HttpContext.Session.SetString("date", hold.date.ToString());
-            TempData["date"] = data;
-            return RedirectToAction("Index", new { hold = new Hold() {date = time} });
-        }
+        //[HttpPost]
+        ////[ValidateAntiForgeryToken]
+        //public IActionResult SetData(string data)
+        //{
+        //    //Debug.WriteLine(test1);
+        //    //Debug.WriteLine(trainingDay);
+        //    //test1 = Request.Query["test"];
+        //    //var test = form["test"];
+        //    //string testtt = HttpContext.Request.Form["test"];
+        //    //return View();
+        //    //return Json(new { data = test1 });
+        //    //return "dane" + data;
+        //    var time = Convert.ToDateTime(data.Replace("/", ".") + " 00:00:00");
+        //    test1 = data;
+        //    //hold = new Hold();
+        //    //hold.date = Convert.ToDateTime(data.Replace("/", ".") + " 00:00:00");
+        //    training.Date = Convert.ToDateTime(data.Replace("/", ".") + " 00:00:00");
+        //    //this.HttpContext.Session.SetString("date", hold.date.ToString());
+        //    TempData["date"] = data;
+
+        //    return RedirectToAction("Index", new { hold = new Hold() { date = time } });
+        //}
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -129,7 +134,29 @@ namespace PracaInzynierska.Controllers
         public async Task<IActionResult> GetAll()
         {
             var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            return Json(new { data = await _db.ExercisesDb.Where(x => x.trainingHistory.Id.Equals(user)).ToListAsync() });
+            var list = await _db.ExercisesDb.Include(i => i.trainingHistory).ToListAsync();
+
+            var finalList = list.Where(x => x.trainingHistory.Id.Equals(user)).ToList();
+
+            List <Exercises> lista = new List<Exercises>(finalList);
+
+            lista.ForEach(x => x.trainingHistory.Date.ToString("dd/MM//yyyy"));
+            //return Json(new { data = await _db.ExercisesDb.Where(x => x.trainingHistory.Id.Equals(user)).ToListAsync() });
+            return Json(new { data = finalList });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SetData(string data)
+        {
+            var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var time = data.Replace("/", ".");
+    
+            var list = await _db.ExercisesDb.Include(i => i.trainingHistory).ToListAsync();
+            var finalList = list.Where(x => x.trainingHistory.Id.Equals(user)).Where(x => x.trainingHistory.Date.ToString().Contains(time)).ToList();
+
+            var tescik = await _db.ExercisesDb.ToListAsync();
+
+            return Json(new { data = tescik });
         }
 
         [HttpDelete]
@@ -140,15 +167,18 @@ namespace PracaInzynierska.Controllers
             {
                 return Json(new { success = false, message = "Error while deleting record" });
             }
+
             _db.ExercisesDb.Remove(record);
             await _db.SaveChangesAsync();
+
             return Json(new { success = true, message = "Record deleted" });
         }
 
         //[HttpPost]
         //public async Task<IActionResult> SetData()
         //{
-
+        //    date = "test1";
+        //    return Json(new { data = date });
         //}
     }
 }
