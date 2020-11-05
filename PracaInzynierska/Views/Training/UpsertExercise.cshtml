@@ -21,15 +21,18 @@
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
         </div>
-        <div class="form-group row">
-            <div class="col-3">
-                <label asp-for="trainingHistory.Date" Date></label>
+        @if (Model.ID == 0)
+        {
+            <div class="form-group row">
+                <div class="col-3">
+                    <label asp-for="trainingHistory.Date" Date></label>
+                </div>
+                <div class="col-6">
+                    <input asp-for="trainingHistory.Date" class="form-control" />
+                    <span asp-validation-for="trainingHistory.Date" class="text-danger"></span>
+                </div>
             </div>
-            <div class="col-6">
-                <input asp-for="trainingHistory.Date" class="form-control" />
-                <span asp-validation-for="trainingHistory.Date" class="text-danger"></span>
-            </div>
-        </div>
+        }
         <div class="form-group row">
             <div class="col-3">
                 <label asp-for="Series"></label>
@@ -66,27 +69,6 @@
                 <span asp-validation-for="Done" class="text-danger"></span>
             </div>
         </div>
-        @*<div class="col-3">
-            <label asp-for="Exercises.Name"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="Date" class="form-control" />
-            <span asp-validation-for="Date" class="text-danger"></span>
-        </div><div class="col-3">
-            <label asp-for="Date"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="Date" class="form-control" />
-            <span asp-validation-for="Date" class="text-danger"></span>
-        </div>
-        <div class="col-3">
-            <label asp-for="Date"></label>
-        </div>
-        <div class="col-6">
-            <input asp-for="Date" class="form-control" />
-            <span asp-validation-for="Date" class="text-danger"></span>
-        </div>*@
-        @*</div>*@
         <div class="form-group row">
             <div class="col-3 offset-3">
                 <button type="submit" class="btn btn-primary form-control">
