@@ -1,0 +1,32 @@
+﻿@model PracaInzynierska.Models.Exercises
+
+
+<form asp-controller="Chart" asp-action="TrainingDateDropDownList/" method="get">
+    <div class="form-group">
+        <label asp-for="Name">
+            <select asp-for="Name" class="form-control"
+                    asp-items="@ViewBag.listOfExercises">
+                <option value="">Select exercise</option>
+            </select>
+        </label>
+        @*<button type="submit"></button>*@
+    </div>
+    <div class="form-group">
+        <label asp-for="trainingHistory">
+            Date from
+            <select asp-for="trainingHistory.Date" class="form-control"
+                    asp-items="@ViewBag.listofDates">
+                <option value="">Select date from</option>
+            </select>
+        </label>
+    </div>
+    <div class="form-group">
+        <label asp-for="trainingHistory">
+            Date to
+            <select asp-for="trainingHistory.Date" class="form-control"
+                    asp-items="@ViewBag.listofDates">
+                <option value="">Select date to</option>
+            </select>
+        </label>
+    </div>
+</form>

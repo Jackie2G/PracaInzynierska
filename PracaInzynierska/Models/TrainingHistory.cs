@@ -1,6 +1,8 @@
 ﻿using EllipticCurve;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PracaInzynierska.Areas.Identity.Data;
+using PracaInzynierska.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -45,7 +47,6 @@ namespace PracaInzynierska.Models
         public DateTime Date { get; set; }
         //public bool Done { get; set; }
         public int ExercisesID { get; set; }
-
-        //public ICollection<Exercises> Exercises { get; set; }
+        
     }
 }
