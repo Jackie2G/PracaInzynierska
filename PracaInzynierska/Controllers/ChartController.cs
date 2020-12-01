@@ -75,5 +75,16 @@ namespace PracaInzynierska.Controllers
 
             ViewBag.listOfExercises = exerciseList;
         }
+
+        [HttpGet]
+        [Route("Chart/GetDataToChart/{exercise}/{dateFrom}/{dateTo}")]
+        public  IActionResult GetDataToChart(string exercise, DateTime dateFrom, DateTime dateTo)
+        {
+            var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var list = _db.ExercisesDb.Include(i => i.trainingHistory).ToList();
+            var finalList = list.Where(x => x.trainingHistory.Id.Equals(user)).Where(x => x.Name.Equals(exercise)).Where(x => x.trainingHistory.Date >= dateFrom && x.trainingHistory.Date <= dateTo).ToList();
+
+            return Json(finalList);
+        }
     }
 }
