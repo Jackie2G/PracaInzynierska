@@ -1,35 +1,45 @@
 ﻿$('#Get').click(function () {
 
-    var test = $('#name option:selected').text();
-    var test1 = test.val;
-    $.getJSON("/Chart/GetDataToChart/Bench/01.01.0001%2000:00:00/12.27.2020%2000:00:00", function (data) {
+    var name = $('#name option:selected').text();
+
+    var dateFrom = $('#dateFrom option:selected').text();
+    var partsFrom = dateFrom.split(/[.]/);
+    var finalDateFrom = `${partsFrom[1]}.${partsFrom[0]}.${partsFrom[2]}`;
+
+    var dateTo = $('#dateTo option:selected').text();
+    var partsTo = dateTo.split(/[.]/);
+    var finalDateTo = `${partsTo[1]}.${partsTo[0]}.${partsTo[2]}`;
+
+    var test = '/Chart/GetDataToChart/' + name + '/' + dateFrom + '/' + dateTo;
+    console.log(test);
+
+    $.getJSON('/Chart/GetDataToChart/' + name + '/' + finalDateFrom + '/' + finalDateTo, function (data) {
 
         var categories = [];
         var weight = [];
         console.log("ciulsko");
         for (var i = 0; i < data.length; i++) {
-            categories.push(data[i].trainingHistory.date);
+            categories.push(String(data[i].trainingHistory.date).substr(0, 10));
             console.log(data[i]);
             weight.push(data[i].weight);
         }
 
-        console.log(data[0].name);
         Highcharts.chart('container', {
             chart: {
                 type: 'line'
             },
             title: {
-                text: 'Monthly Average Temperature'
+                text: 'Progress chart'
             },
             subtitle: {
-                text: 'Source: WorldClimate.com'
+                text: ''
             },
             xAxis: {
                 categories: categories
             },
             yAxis: {
                 title: {
-                    text: 'Temperature (°C)'
+                    text: 'Weight'
                 }
             },
             plotOptions: {
@@ -41,7 +51,7 @@
                 }
             },
             series: [{
-                name: $('#name').val,
+                name: $('#name option:selected').text(),
                 data: weight
             }]
         });
