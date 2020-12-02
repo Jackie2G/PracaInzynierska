@@ -22,8 +22,6 @@ namespace PracaInzynierska.Controllers
         public TrainingHistory training { get; set; }
         [BindProperty]
         public Exercises exercise { get; set; }
-        //[BindProperty]
-        //public DateTime trainingDay { get; set; } 
 
         public TrainingController(ApplicationContext db)
         {
@@ -63,6 +61,31 @@ namespace PracaInzynierska.Controllers
                     training.ExercisesID = exercise.ID;
                     training.Date = exercise.trainingHistory.Date;
                     exercise.trainingHistory = training;
+                    var exerciseList = _db.ExercisesDb.Where(x => x.trainingHistory.Id.Equals(training.Id)).Where(x => x.Name.Equals(exercise.Name)).Where(x => x.Reps.Equals(exercise.Reps)).Where(x => x.Series.Equals(exercise.Series)).ToList();
+
+                    if (exerciseList.Count().Equals(0))
+                    {
+                        exercise.CurrentPr = "PR";
+                    }
+                    else
+                    {
+                        var lastExercise = exerciseList.Where(x => x.Weight.Equals(exerciseList.Max(x => x.Weight))).FirstOrDefault();
+                        double maxWeight = exerciseList.Max(x => x.Weight);
+
+                        if (maxWeight > exercise.Weight && exercise.Done == true)
+                        {
+                            exercise.CurrentPr = maxWeight.ToString();
+                        }
+                        else
+                        {
+                            exercise.CurrentPr = "PR";
+                            foreach (var ex in exerciseList)
+                            {
+                                ex.CurrentPr = exercise.Weight.ToString();
+                                _db.ExercisesDb.Update(ex);
+                            }
+                        }
+                    }
 
                     _db.ExercisesDb.Add(exercise);
                     _db.TrainingsDb.Add(training);
@@ -71,6 +94,36 @@ namespace PracaInzynierska.Controllers
                 }
                 else
                 {
+                    var exerciseList = _db.ExercisesDb.Where(x => x.trainingHistory.Id.Equals(User.FindFirstValue(ClaimTypes.NameIdentifier))).Where(x => x.Name.Equals(exercise.Name)).Where(x => x.Reps.Equals(exercise.Reps)).Where(x => x.Series.Equals(exercise.Series)).ToList();
+
+                    if (exerciseList.Count().Equals(0))
+                    {
+                        exercise.CurrentPr = "PR";
+                    }
+                    else
+                    {
+                        var lastExercise = exerciseList.Where(x => x.Weight.Equals(exerciseList.Max(x => x.Weight))).FirstOrDefault();
+                        double maxWeight = exerciseList.Max(x => x.Weight);
+
+                        if (maxWeight > exercise.Weight && exercise.Done == true)
+                        {
+                            exercise.CurrentPr = maxWeight.ToString();
+                        }
+                        else
+                        {
+                            exercise.CurrentPr = "PR";
+                            foreach (var ex in exerciseList)
+                            {
+                                ex.CurrentPr = exercise.Weight.ToString();
+                                _db.ExercisesDb.Update(ex);
+                            }
+                        }
+                    }
+                    _db.SaveChanges();
+
+                    foreach (var entry in exerciseList)
+                        _db.Entry<Exercises>(entry).State = EntityState.Detached;
+
                     _db.ExercisesDb.Update(exercise);
                     _db.SaveChanges();
                 }
@@ -91,20 +144,6 @@ namespace PracaInzynierska.Controllers
 
             return Json(new { data = finalList });
         }
-
-        //[HttpGet]
-        //public async Task<IActionResult> SetData(string data)
-        //{
-        //    var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        //    var time = data.Replace("/", ".");
-    
-        //    var list = await _db.ExercisesDb.Include(i => i.trainingHistory).ToListAsync();
-        //    var finalList = list.Where(x => x.trainingHistory.Id.Equals(user)).Where(x => x.trainingHistory.Date.ToString().Contains(time)).ToList();
-
-        //    var tescik = await _db.ExercisesDb.ToListAsync();
-
-        //    return Json(new { data = tescik });
-        //}
 
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)

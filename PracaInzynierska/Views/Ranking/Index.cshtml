@@ -1,0 +1,74 @@
+﻿<div class="container row ui-progressbar-overlay m-0">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <select class="form-control exercise" id="exercise">
+                    <option>Bench press</option>
+                    <option>Deadlift</option>
+                    <option>Squat</option>
+                </select>
+                @*@Html.DropDownList("Exercise", new List<SelectListItem>
+                    {
+                        new SelectListItem{ Text="Bench press", Value="1"}
+                    })*@
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <select class="form-control" id="gender">
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <select class="form-control" id="weightCategory">
+                    <optgroup label="Male">
+                        <option>59</option>
+                        <option>66</option>
+                        <option>74</option>
+                        <option>83</option>
+                        <option>93</option>
+                        <option value="105">105</option>
+                        <option>120</option>
+                        <option>120+</option>
+                    </optgroup>
+                    <optgroup label="Female">
+                        <option>47</option>
+                        <option>52</option>
+                        <option>57</option>
+                        <option>63</option>
+                        <option>72</option>
+                        <option>84</option>
+                        <option>84+</option>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-info text-white" id="Get">Show ranking</button>
+        </div>
+    </div>
+    <br /><br /><br />
+    <div class="col-12 border p-3">
+        <table id="Ranking_load" class="table table-striped table-bordered" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Nick</th>
+                    <th>Gender</th>
+                    <th>Weight Category</th>
+                    <th>Exercise</th>
+                    <th>Series</th>
+                    <th>Reps</th>
+                    <th>Weight</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/RankingList.js"></script>
+    <script src="~/lib/jqueryui/jquery-ui.min.js"></script>
+}

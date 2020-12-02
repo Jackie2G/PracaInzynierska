@@ -14,6 +14,8 @@ namespace PracaInzynierska.Models
         public int Reps { get; set; }
         public bool Done { get; set; }
         public int Series { get; set; }
+        public string Description { get; set; }
+        public string CurrentPr { get; set; }
 
         public TrainingHistory trainingHistory { get; set; }
     }

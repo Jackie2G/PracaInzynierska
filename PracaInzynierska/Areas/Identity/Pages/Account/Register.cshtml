@@ -27,7 +27,27 @@
             </div>
             <div class="form-group">
                 <label asp-for="Input.WeightCategory"></label>
-                <input asp-for="Input.WeightCategory" class="form-control" />
+                <select asp-for="Input.WeightCategory" class="form-control">
+                    <optgroup label="Male">
+                        <option>59</option>
+                        <option>66</option>
+                        <option>74</option>
+                        <option>83</option>
+                        <option>93</option>
+                        <option>105</option>
+                        <option>120</option>
+                        <option>120+</option>
+                    </optgroup>
+                    <optgroup label="Female">
+                        <option>47</option>
+                        <option>52</option>
+                        <option>57</option>
+                        <option>63</option>
+                        <option>72</option>
+                        <option>84</option>
+                        <option>84+</option>
+                    </optgroup>
+                </select>
                 <span asp-validation-for="Input.WeightCategory" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -22,11 +22,13 @@ function loadDataTable() {
                     return String(data).substr(0, 10);
                 }
             },
-            { "data": "name", "width": "30%" },
+            { "data": "name", "width": "20%" },
             { "data": "series", "width": "10%" },
             { "data": "reps", "width": "10%" },
             { "data": "weight", "width": "10%" },
             { "data": "done", "width": "10%" },
+            { "data": "description", "width": "10%" },
+            { "data": "currentPr", "width": "10%" },
             {
                 "data": "id",
                 "render": function (data) {
@@ -45,7 +47,7 @@ function loadDataTable() {
                             </svg>
                         </a>
                         </div>`;
-                }, "width": "30%"
+                }, "width": "10%"
             }
         ],
         "language": {
@@ -55,41 +57,41 @@ function loadDataTable() {
     });
 }
 
-function loadDataTableData() {
-    dataTable = $('#DT_load').DataTable({
-        "ajax": {
-            "url": "Training/SetData?data=17%2F09%2F2020/",
-            "type": "GET",
-            "datatype": "json"
-        },
-        "columns": [
-            { "data": "name", "width": "30%" },
-            { "data": "series", "width": "10%" },
-            { "data": "reps", "width": "10%" },
-            { "data": "weight", "width": "10%" },
-            { "data": "done", "width": "10%" },
-            {
-                "data": "id",
-                "render": function (data) {
-                    return `<div class="text-center">
-                        <a href="/Training/UpsertExercise?id=${data}" class='btn btn-success text-white' style='cursor:pointer; width:70px;'>
-                            Edit
-                        </a>
-                        &nbsp;
-                        <a class='btn btn-danger text-white' style='cursor:pointer; width:70px;'
-                            onclick=Delete('/Training/Delete?id='+${data})>
-                            Delete
-                        </a>
-                        </div>`;
-                }, "width": "30%"
-            }
-        ],
-        "language": {
-            "emptyTable": "Add exercises to create new training day"
-        },
-        "width": "100%"
-    });
-}
+//function loadDataTableData() {
+//    dataTable = $('#DT_load').DataTable({
+//        "ajax": {
+//            "url": "Training/SetData?data=17%2F09%2F2020/",
+//            "type": "GET",
+//            "datatype": "json"
+//        },
+//        "columns": [
+//            { "data": "name", "width": "30%" },
+//            { "data": "series", "width": "10%" },
+//            { "data": "reps", "width": "10%" },
+//            { "data": "weight", "width": "10%" },
+//            { "data": "done", "width": "10%" },
+//            {
+//                "data": "id",
+//                "render": function (data) {
+//                    return `<div class="text-center">
+//                        <a href="/Training/UpsertExercise?id=${data}" class='btn btn-success text-white' style='cursor:pointer; width:70px;'>
+//                            Edit
+//                        </a>
+//                        &nbsp;
+//                        <a class='btn btn-danger text-white' style='cursor:pointer; width:70px;'
+//                            onclick=Delete('/Training/Delete?id='+${data})>
+//                            Delete
+//                        </a>
+//                        </div>`;
+//                }, "width": "30%"
+//            }
+//        ],
+//        "language": {
+//            "emptyTable": "Add exercises to create new training day"
+//        },
+//        "width": "100%"
+//    });
+//}
 
 function Delete(url) {
     swal({
