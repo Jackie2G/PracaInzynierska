@@ -6,12 +6,25 @@ function loadDataTable() {
     var exercise = $('#exercise option:selected').text();
     var gender = $('#gender option:selected').text();
     var weightCategory = $('#weightCategory').find(":selected").text();
-    var test = '/Ranking/GetUsersBestExercises' + exercise + '/' + gender + '/' + weightCategory;
-    console.log(test);
 
-        dataTable = $('#Ranking_load').DataTable({
+    if (weightCategory == "120+") {
+        weightCategory = "120up";
+    }
+    else if (weightCategory == "84+") {
+        weightCategory = "84up";
+    }
+    else {
+        weightCategory = weightCategory;
+    }
+
+    var getUrl = ('/Ranking/GetUsersBestExercises/' + exercise + '/' + gender + '/' + weightCategory).toString();
+    console.log(getUrl);
+
+    dataTable = $('#Ranking_load').DataTable({
+        "destroy": true,
         "ajax": {
-            "url": test,
+            "cache": true,
+            "url": getUrl,
             "type": "GET",
             "datatype": "json"
         },

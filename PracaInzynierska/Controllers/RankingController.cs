@@ -4,6 +4,7 @@ using PracaInzynierska.Data;
 using PracaInzynierska.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -31,6 +32,17 @@ namespace PracaInzynierska.Controllers
         [Route("Ranking/GetUsersBestExercises/{exercise}/{gender}/{weightCategory}")]
         public IActionResult GetUsersBestExercises(string exercise, string gender, string weightCategory)
         {
+            if (weightCategory.Equals("120up"))
+            {
+                weightCategory = "120+";
+            }
+            else if (weightCategory.Equals("84up"))
+            {
+                weightCategory = "84+";
+            }
+
+            Debug.WriteLine(weightCategory);
+
             var list = _db.ExercisesDb.Where(x => x.Name.Equals(exercise)).
                 Join(_db.Users, x => x.trainingHistory.Id, y => y.Id, (x, y) => new
                 {
@@ -41,7 +53,7 @@ namespace PracaInzynierska.Controllers
                     Series = x.Series,
                     Reps = x.Reps,
                     Weight = x.Weight
-                }).ToList();
+                }).Where(x => x.WeightCategory.Equals(weightCategory) && x.Gender.Equals(gender)).ToList().GroupBy(x => x.Nick).Select(x => x.OrderByDescending(x => x.Weight).First());
 
             return Json(new { data = list });
         }
