@@ -1,0 +1,51 @@
+﻿<br />
+<div class="container row ui-progressbar-overlay m-0">
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label>Weight</label>
+                <input type="number" id="weight" />
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label>Reps</label>
+                <input type="number" id="reps"/>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label>Methods</label>
+                <select id="method">
+                    <optgroup label="Formula">
+                        <option>Epley</option>
+                        <option>Brzycki</option>
+                        <option>McGlothin</option>
+                        <option>Lombardi</option>
+                        <option>Mayhew et ai.</option>
+                        <option>O'Conner et ai.</option>
+                        <option>Wathen</option>
+                    </optgroup>
+                </select>
+            </div>
+        </div>
+        <div class="col">
+            <button type="button" class="btn btn-info text-white" id="Get">Calculate</button>
+        </div>
+    </div>
+    <div class="w-100"></div>
+    <br /><br /><br />
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label id="methodName">Estimated 1 rep max</label>
+                <input type="number" id="output" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{ 
+    <script src="~/js/CalculateData.js"></script>
+    <script src="~/lib/jqueryui/jquery-ui.min.js"></script>
+}
