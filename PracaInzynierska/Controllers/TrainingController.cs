@@ -30,7 +30,15 @@ namespace PracaInzynierska.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (user != null)
+            {
+                return View();
+            }
+            else
+            {
+                return Redirect("https://localhost:44396/Identity/Account/Register");
+            }
         }
 
         public IActionResult UpsertExercise(int? id)
@@ -140,9 +148,41 @@ namespace PracaInzynierska.Controllers
             var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var list = await _db.ExercisesDb.Include(i => i.trainingHistory).ToListAsync();
 
-            var finalList = list.Where(x => x.trainingHistory.Id.Equals(user)).ToList();
+            var finalList = list.Where(x => x.trainingHistory.Id.Equals(user)).ToList().OrderByDescending(x => x.trainingHistory.Date);
 
             return Json(new { data = finalList });
+        }
+
+        [HttpGet]
+        [Route("Training/GetAllDay/{trainingDay}")]
+        public async Task<IActionResult> GetAllDay(DateTime trainingDay)
+        {
+            var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var list = await _db.ExercisesDb.Where(x => x.trainingHistory.Id.Equals(user)).Include(i => i.trainingHistory).ToListAsync();
+
+            var finalList = list.Where(x => x.trainingHistory.Date.Equals(trainingDay)).ToList();
+
+            return Json(new { data = finalList });
+        }
+
+        [HttpGet]
+        [Route("Training/GetExercises/{exerciseName}")]
+        public async Task<IActionResult> GetExercises(string exerciseName)
+        {
+            var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var list = await _db.ExercisesDb.Where(x => x.Name.Equals(exerciseName) && x.trainingHistory.Id.Equals(user)).Include(x => x.trainingHistory).ToListAsync();
+
+            return Json(new { data = list });
+        }
+
+        [HttpGet]
+        [Route("Training/GetDataBetween/{dateFrom}/{dateTo}")]
+        public async Task<IActionResult> GetDataBetween(DateTime dateFrom, DateTime dateTo)
+        {
+            var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var list = await _db.ExercisesDb.Where(x => x.trainingHistory.Id.Equals(user) && x.trainingHistory.Date >= dateFrom && x.trainingHistory.Date <= dateTo).OrderByDescending(x => x.trainingHistory.Date).ToListAsync();
+
+            return Json(new { data = list });
         }
 
         [HttpDelete]

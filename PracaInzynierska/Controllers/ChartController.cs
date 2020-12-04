@@ -28,9 +28,17 @@ namespace PracaInzynierska.Controllers
 
         public IActionResult Index()
         {
-            GetExercises();
-            TrainingDateDropDownList();
-            return View();
+            var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (user != null)
+            {
+                GetExercises();
+                TrainingDateDropDownList();
+                return View();
+            }
+            else
+            {
+                return Redirect("https://localhost:44396/Identity/Account/Register");
+            }
         }
 
         public void TrainingDateDropDownList(object selectedData = null)
