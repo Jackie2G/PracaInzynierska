@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using PracaInzynierska.Services;
+using Microsoft.AspNetCore.Mvc.Razor;
 
 namespace PracaInzynierska
 {
@@ -41,6 +42,7 @@ namespace PracaInzynierska
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+
            
 
             //ustawienie opcji logowania

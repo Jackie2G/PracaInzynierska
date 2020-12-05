@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PracaInzynierska.Areas.Identity.Data;
 using PracaInzynierska.Data;
 using PracaInzynierska.Models;
 using System;
@@ -43,15 +44,26 @@ namespace PracaInzynierska.Controllers
         }
 
         [HttpGet]
-        [Route("Prediction/{exerciseName}")]
-        public async Task <IActionResult> GetExercise(string exerciseName)
+        [Route("Prediction/{exerciseName}/{expectedDate}")]
+        public async Task <IActionResult> GetExercise(string exerciseName, DateTime expectedDate)
         {
             var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var list = await _db.ExercisesDb.Include(x => x.trainingHistory).ToListAsync();
 
             var finalList = list.Where(x => x.trainingHistory.Id.Equals(user) && x.Name.Equals(exerciseName)).ToList();
 
-            return Json(new { data = finalList });
+            string weights = string.Join(" ", finalList.Select(x => x.Weight.ToString()).ToList());
+            string dates = string.Join(" ", finalList.Select(x => x.trainingHistory.Date.ToString().Substring(0, 10)).ToList());
+
+            var py = new PythonScript();
+            var result = py.RunFromFile(weights, dates, expectedDate.ToString());
+
+            //var py = new PythonScript();
+            //var result = py.RunFromString<int>("C:/Users/Jacek/source/repos/PracaInzynierska/PracaInzynierska/Areas/Identity/Data/test.py", "d");
+            //Console.WriteLine(result);
+
+            return Json(result);
+
         }
     }
 }
