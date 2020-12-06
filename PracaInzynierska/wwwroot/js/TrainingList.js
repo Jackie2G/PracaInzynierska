@@ -26,7 +26,22 @@ function loadDataTable() {
             { "data": "series", "width": "10%" },
             { "data": "reps", "width": "10%" },
             { "data": "weight", "width": "10%" },
-            { "data": "done", "width": "10%" },
+            {
+                "data": "done",
+                searchable: false,
+                sortable: false,
+                className: "text-center",
+                "render": function (data, type, row) {
+                    if (String(data) === "true") {
+                        return '<input type="checkbox" class="editor-active" onclick="return false;" checked>';
+                    }
+                    else {
+                        return '<input type="checkbox" onclick="return false;" class="editor-active">';
+                    }
+                    return data;
+                },
+                className: "dt-body-center text-center"
+            },
             { "data": "description", "width": "10%" },
             { "data": "currentPr", "width": "10%" },
             {

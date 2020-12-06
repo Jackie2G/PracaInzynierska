@@ -62,8 +62,7 @@ $('#Reg').click(function () {
         //for (var i = 0; i < data.length; i++) {
         //    console.log(data[i]);
         //}
-        var output = data.endResult;
-        console.log(output);
+        var output = parseFloat(data.endResult).toFixed(2);
         outputreg.val(output);
     });
 })
