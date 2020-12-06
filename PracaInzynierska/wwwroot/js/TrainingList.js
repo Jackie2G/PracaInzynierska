@@ -1,17 +1,50 @@
 ﻿var dataTable;
 
 $(document).ready(function () {
-    loadDataTable();
+    var deafultUrl = "/Training/getall/"
+    loadDataTable(deafultUrl);
     $('#datepicker').datepicker({
         dateFormat: 'dd/mm/yy'
     });
-    //loadDataTableData();
 });
 
-function loadDataTable() {
+$('#GetDate').click(function () {
+
+    var date = $('#date').val();
+    var partsDate = date.split(/[-]/);
+    var finalDate = `${partsDate[1]}.${partsDate[2]}.${partsDate[0]}`;
+    var url = "/Training/GetAllDay/" + finalDate;
+    loadDataTable(url);
+});
+
+$('#GetExercise').click(function () {
+
+    var exercise = $('#exercise option:selected').text();
+    var url = "/Training/GetExercises/" + exercise;
+    loadDataTable(url);
+});
+
+$('#GetDataBetween').click(function () {
+
+    var dateFrom = $('#dateFrom').val();
+    var partsFrom = dateFrom.split(/[-]/);
+    var finalDateFrom = `${partsFrom[1]}.${partsFrom[2]}.${partsFrom[0]}`;
+
+    var dateTo = $('#dateTo').val();
+    var partsTo = dateTo.split(/[-]/);
+    var finalDateTo = `${partsTo[1]}.${partsTo[2]}.${partsTo[0]}`;
+
+    var url = "/Training/GetDataBetween/" + finalDateFrom + "/" + finalDateTo;
+    loadDataTable(url);
+})
+
+function loadDataTable(url) {
+
     dataTable = $('#DT_load').DataTable({
+        "destroy": true,
         "ajax": {
-            "url": "/Training/getall/",
+            "cache": true,
+            "url": url,
             "type": "GET",
             "datatype": "json"
         },
@@ -19,7 +52,8 @@ function loadDataTable() {
             {
                 "data": "trainingHistory.date", "width": "10%",
                 "render": function (data, type, row) {
-                    return String(data).substr(0, 10);
+                    var date = String(data).substr(0, 10).split(/[-]/);
+                    return `${date[2]}.${date[1]}.${date[0]}`;
                 }
             },
             { "data": "name", "width": "20%" },
@@ -71,42 +105,6 @@ function loadDataTable() {
         "width": "100%"
     });
 }
-
-//function loadDataTableData() {
-//    dataTable = $('#DT_load').DataTable({
-//        "ajax": {
-//            "url": "Training/SetData?data=17%2F09%2F2020/",
-//            "type": "GET",
-//            "datatype": "json"
-//        },
-//        "columns": [
-//            { "data": "name", "width": "30%" },
-//            { "data": "series", "width": "10%" },
-//            { "data": "reps", "width": "10%" },
-//            { "data": "weight", "width": "10%" },
-//            { "data": "done", "width": "10%" },
-//            {
-//                "data": "id",
-//                "render": function (data) {
-//                    return `<div class="text-center">
-//                        <a href="/Training/UpsertExercise?id=${data}" class='btn btn-success text-white' style='cursor:pointer; width:70px;'>
-//                            Edit
-//                        </a>
-//                        &nbsp;
-//                        <a class='btn btn-danger text-white' style='cursor:pointer; width:70px;'
-//                            onclick=Delete('/Training/Delete?id='+${data})>
-//                            Delete
-//                        </a>
-//                        </div>`;
-//                }, "width": "30%"
-//            }
-//        ],
-//        "language": {
-//            "emptyTable": "Add exercises to create new training day"
-//        },
-//        "width": "100%"
-//    });
-//}
 
 function Delete(url) {
     swal({

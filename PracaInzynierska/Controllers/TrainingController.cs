@@ -9,6 +9,7 @@ using System.Xml.Linq;
 using Microsoft.AspNetCore.DataProtection.XmlEncryption;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PracaInzynierska.Data;
 using PracaInzynierska.Models;
@@ -22,6 +23,7 @@ namespace PracaInzynierska.Controllers
         public TrainingHistory training { get; set; }
         [BindProperty]
         public Exercises exercise { get; set; }
+        public SelectList exerciseList { get; set; }
 
         public TrainingController(ApplicationContext db)
         {
@@ -33,6 +35,7 @@ namespace PracaInzynierska.Controllers
             var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (user != null)
             {
+                GetExercises();
                 return View();
             }
             else
@@ -180,7 +183,7 @@ namespace PracaInzynierska.Controllers
         public async Task<IActionResult> GetDataBetween(DateTime dateFrom, DateTime dateTo)
         {
             var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var list = await _db.ExercisesDb.Where(x => x.trainingHistory.Id.Equals(user) && x.trainingHistory.Date >= dateFrom && x.trainingHistory.Date <= dateTo).OrderByDescending(x => x.trainingHistory.Date).ToListAsync();
+            var list = await _db.ExercisesDb.Where(x => x.trainingHistory.Id.Equals(user) && x.trainingHistory.Date >= dateFrom && x.trainingHistory.Date <= dateTo).Include(x => x.trainingHistory).OrderByDescending(x => x.trainingHistory.Date).ToListAsync();
 
             return Json(new { data = list });
         }
@@ -198,6 +201,21 @@ namespace PracaInzynierska.Controllers
             await _db.SaveChangesAsync();
 
             return Json(new { success = true, message = "Record deleted" });
+        }
+
+        public void GetExercises(object selectedData = null)
+        {
+            var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var exerciseQuery = (from d in _db.ExercisesDb
+                                 where d.trainingHistory.Id.Equals(user)
+                                 orderby d.Name
+                                 select d.Name).Distinct();
+
+
+            exerciseList = new SelectList(exerciseQuery);
+
+            ViewBag.listOfExercises = exerciseList;
         }
     }
 }

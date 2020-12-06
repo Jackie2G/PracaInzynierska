@@ -1,4 +1,6 @@
-﻿<link href=https://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.4/themes/excite-bike/jquery-ui.css rel="stylesheet" />
+﻿@model PracaInzynierska.Models.Exercises
+
+<link href=https://ajax.aspnetcdn.com/ajax/jquery.ui/1.10.4/themes/excite-bike/jquery-ui.css rel="stylesheet" />
 <br />
 <div class="container row p-0 m-0">
     <div class="col-3">
@@ -12,8 +14,12 @@
     <div class="w-100"></div>
     <br />
     <div class="col-3">
-        <label>Exercise:  </label>
-        <input type="text" id="exercise"/>
+        <label asp-for="Name" Exercise:>
+            <select asp-for="Name" class="form-control"
+                    asp-items="@ViewBag.listofExercises" id="exercise">
+                <option value="">Select exercise from</option>
+            </select>
+        </label>
     </div>
     <div class="col-3">
         <button type="button" class="btn btn-info text-white" id="GetExercise">Show</button>
@@ -30,7 +36,7 @@
         <input type="date" id="dateTo"/>
     </div>
     <div class="col-3">
-        <button type="button" class="btn btn-info text-white">Show</button>
+        <button type="button" class="btn btn-info text-white" id="GetDataBetween">Show</button>
     </div>
     <div class="w-100"></div>
     <div class="w-100"></div>
