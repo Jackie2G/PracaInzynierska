@@ -17,7 +17,6 @@
 
         var categories = [];
         var weight = [];
-        console.log("ciulsko");
         for (var i = 0; i < data.length; i++) {
             var trainingDate = String(data[i].trainingHistory.date).substr(0, 10).split(/[-]/);
             var finalTrainingDate = `${trainingDate[2]}.${trainingDate[1]}.${trainingDate[0]}`

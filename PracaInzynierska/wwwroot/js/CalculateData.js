@@ -43,4 +43,27 @@
             output.val(repMax);
             break;
     }
+});
+
+$('#Reg').click(function () {
+
+    var name = $('#name option:selected').text();
+    var expectedDate = $('#expectedDate').val();
+    var outputreg = $('#outputreg');
+    var partsDate = expectedDate.split(/[-]/);
+    var finalDate = `${partsDate[1]}.${partsDate[2]}.${partsDate[0]}`;
+    var test = '/Prediction/' + name + '/' + finalDate;
+    console.log(test);
+
+    $.getJSON('/Prediction/' + name + '/' + finalDate, function (data) {
+
+        console.log(finalDate);
+        console.log(name);
+        //for (var i = 0; i < data.length; i++) {
+        //    console.log(data[i]);
+        //}
+        var output = data.endResult;
+        console.log(output);
+        outputreg.val(output);
+    });
 })

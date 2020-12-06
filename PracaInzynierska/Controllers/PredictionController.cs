@@ -50,19 +50,20 @@ namespace PracaInzynierska.Controllers
             var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var list = await _db.ExercisesDb.Include(x => x.trainingHistory).ToListAsync();
 
-            var finalList = list.Where(x => x.trainingHistory.Id.Equals(user) && x.Name.Equals(exerciseName)).ToList();
+            var finalList = list.Where(x => x.trainingHistory.Id.Equals(user) && x.Name.Equals(exerciseName)).ToList().OrderBy(x => x.trainingHistory.Date);
 
             string weights = string.Join(" ", finalList.Select(x => x.Weight.ToString()).ToList());
-            string dates = string.Join(" ", finalList.Select(x => x.trainingHistory.Date.ToString().Substring(0, 10)).ToList());
+            string dates = string.Join(";", finalList.Select(x => x.trainingHistory.Date.ToString()).ToList());
 
             var py = new PythonScript();
+            var test = expectedDate.ToString();
             var result = py.RunFromFile(weights, dates, expectedDate.ToString());
 
-            //var py = new PythonScript();
-            //var result = py.RunFromString<int>("C:/Users/Jacek/source/repos/PracaInzynierska/PracaInzynierska/Areas/Identity/Data/test.py", "d");
-            //Console.WriteLine(result);
+            var newResult = result.Replace("\r\n", string.Empty).Replace(".", ",");
 
-            return Json(result);
+            var endResult = Convert.ToDouble(newResult);
+
+            return Json(new { endResult });
 
         }
     }

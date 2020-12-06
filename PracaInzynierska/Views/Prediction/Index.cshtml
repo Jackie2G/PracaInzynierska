@@ -46,6 +46,7 @@
         </div>
     </div>
     <div class="w-100"></div>
+    <br /><br />
     <div class="row">
         <div class="col">
             <div class="form-group">
@@ -59,12 +60,22 @@
         </div>
         <div class="col">
             <div class="form-group">
-                <label>Time or weight</label>
-                <input type="number" />
+                <label>Time</label>
+                <input type="date" id="expectedDate" />
             </div>
         </div>
         <div class="col">
-            <button type="button" class="btn btn-info text-white" id="Regression">Calculate</button>
+            <button type="button" class="btn btn-info text-white" id="Reg">Calculate</button>
+        </div>
+    </div>
+    <div class="w-100"></div>
+    <br /><br />
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                <label id="methodName">Estimated weight in 1 set:</label>
+                <input type="number" id="outputreg" />
+            </div>
         </div>
     </div>
 </div>
