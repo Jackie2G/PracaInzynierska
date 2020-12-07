@@ -52,7 +52,7 @@ namespace PracaInzynierska.Controllers
 
             var finalList = list.Where(x => x.trainingHistory.Id.Equals(user) && x.Name.Equals(exerciseName)).ToList().OrderBy(x => x.trainingHistory.Date);
 
-            string weights = string.Join(" ", finalList.Select(x => x.Weight.ToString()).ToList());
+            string weights = string.Join(" ", finalList.Select(x => x.Weight.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)).ToList());
             string dates = string.Join(";", finalList.Select(x => x.trainingHistory.Date.ToString()).ToList());
 
             var py = new PythonScript();

@@ -148,10 +148,12 @@ namespace PracaInzynierska.Controllers
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
+            var dateNow = DateTime.Now.Date;
+
             var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var list = await _db.ExercisesDb.Include(i => i.trainingHistory).ToListAsync();
 
-            var finalList = list.Where(x => x.trainingHistory.Id.Equals(user)).ToList().OrderByDescending(x => x.trainingHistory.Date);
+            var finalList = list.Where(x => x.trainingHistory.Id.Equals(user) && x.trainingHistory.Date.Equals(dateNow)).ToList().OrderByDescending(x => x.trainingHistory.Date);
 
             return Json(new { data = finalList });
         }
