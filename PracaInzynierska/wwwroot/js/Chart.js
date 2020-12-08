@@ -20,9 +20,7 @@
         for (var i = 0; i < data.length; i++) {
             var trainingDate = String(data[i].trainingHistory.date).substr(0, 10).split(/[-]/);
             var finalTrainingDate = `${trainingDate[2]}.${trainingDate[1]}.${trainingDate[0]}`
-            //categories.push(String(data[i].trainingHistory.date).substr(0, 10));
             categories.push(finalTrainingDate);
-            console.log(data[i]);
             weight.push(data[i].weight);
         }
 

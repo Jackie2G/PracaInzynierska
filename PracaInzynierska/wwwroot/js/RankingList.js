@@ -18,7 +18,6 @@ function loadDataTable() {
     }
 
     var getUrl = ('/Ranking/GetUsersBestExercises/' + exercise + '/' + gender + '/' + weightCategory).toString();
-    console.log(getUrl);
 
     dataTable = $('#Ranking_load').DataTable({
         "destroy": true,
