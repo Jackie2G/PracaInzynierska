@@ -154,3 +154,15 @@ input.move-left {
     transform: scale(3);
     margin-left: 10px;
 }
+
+.profile-manage{
+    /*padding-top: 20vh;*/
+}
+
+/*.account{
+    padding-top: 5vh;
+}*/
+
+.manage{
+    padding-top: 8vh;
+}
