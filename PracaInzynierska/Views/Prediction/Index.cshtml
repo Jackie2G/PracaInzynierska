@@ -1,24 +1,20 @@
 ﻿@model PracaInzynierska.Models.Exercises
 
 <br />
-<div class="container row ui-progressbar-overlay m-0">
-    <div class="row">
-        <div class="col">
-            <div class="form-group">
-                <label>Weight</label>
-                <input type="number" id="weight" />
+<div class="ranking-box row ui-progressbar-overlay m-0">
+    <div class="col-12 row">
+        <div class="col-12 form-group row border-bottom pb-5">
+            <label class="col-sm-1 col-form-label">Weight</label>
+            <div class="col-sm-2">
+                <input type="number" id="weight" class="form-control" />
             </div>
-        </div>
-        <div class="col">
-            <div class="form-group">
-                <label>Reps</label>
-                <input type="number" id="reps" />
+            <label class="col-sm-1 col-form-label">Reps</label>
+            <div class="col-sm-2">
+                <input type="number" id="reps" class="form-control" />
             </div>
-        </div>
-        <div class="col">
-            <div class="form-group">
-                <label>Methods</label>
-                <select id="method">
+            <label class="col-sm-1 col-form-label">Methods</label>
+            <div class="col-sm-3">
+                <select id="method" class="form-control">
                     <optgroup label="Formula">
                         <option>Epley</option>
                         <option>Brzycki</option>
@@ -30,51 +26,36 @@
                     </optgroup>
                 </select>
             </div>
-        </div>
-        <div class="col">
-            <button type="button" class="btn btn-info text-white" id="Get">Calculate</button>
-        </div>
-    </div>
-    <div class="w-100"></div>
-    <br /><br /><br />
-    <div class="row">
-        <div class="col">
-            <div class="form-group">
-                <label id="methodName">Estimated 1 rep max</label>
-                <input type="number" id="output" />
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-info text-white" id="Get">Calculate</button>
+            </div>
+            <div class="w-100"></div>
+            <br /><br />
+            <label id="methodName" class="col-sm-2 col-form-label">Estimated 1 rep max</label>
+            <div class="col-sm-1">
+                <input type="number" id="output" class="form-control" />
             </div>
         </div>
-    </div>
-    <div class="w-100"></div>
-    <br /><br />
-    <div class="row">
-        <div class="col">
-            <div class="form-group">
-                <label asp-for="Name">
-                    <select asp-for="Name" class="form-control"
-                            asp-items="@ViewBag.listOfExercises" id="name">
-                        <option value="">Select exercise</option>
-                    </select>
-                </label>
+        <div class="col-12 form-group row mt-5 border-bottom pb-5">
+            <label id="methodName" class="col-sm-1 col-form-label">Exercise</label>
+            <div class="col-sm-2">
+                <select asp-for="Name" class="form-control"
+                        asp-items="@ViewBag.listOfExercises" id="name">
+                    <option value="">Select exercise</option>
+                </select>
             </div>
-        </div>
-        <div class="col">
-            <div class="form-group">
-                <label>Time</label>
-                <input type="date" id="expectedDate" />
+            <label class="col-sm-1 col-form-label">Date</label>
+            <div class="col-sm-2">
+                <input type="date" class="form-control" id="expectedDate"/>
             </div>
-        </div>
-        <div class="col">
-            <button type="button" class="btn btn-info text-white" id="Reg">Calculate</button>
-        </div>
-    </div>
-    <div class="w-100"></div>
-    <br /><br />
-    <div class="row">
-        <div class="col">
-            <div class="form-group">
-                <label id="methodName">Estimated weight in 1 set:</label>
-                <input type="number" id="outputreg" />
+            <div class="col-sm-2">
+                <button type="button" class="btn btn-info text-white" id="Reg">Calculate</button>
+            </div>
+            <div class="w-100"></div>
+            <br /><br />
+            <label id="methodName" class="col-sm-2 col-form-label">Estimated weight in 1 set</label>
+            <div class="col-sm-1">
+                <input type="number" id="outputreg" class="form-control" />
             </div>
         </div>
     </div>

@@ -3,40 +3,32 @@
 <br />
 <br />
 <br />
-<div class="container">
+<div class="ranking-box">
     <form asp-controller="Chart" asp-action="TrainingDateDropDownList/" method="get">
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <label asp-for="Name">
-                        <select asp-for="Name" class="form-control"
-                                asp-items="@ViewBag.listOfExercises" id="name">
-                            <option value="">Select exercise</option>
-                        </select>
-                    </label>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label asp-for="trainingHistory">
-                        <select asp-for="trainingHistory.Date" class="form-control"
-                                asp-items="@ViewBag.listofDates" id="dateFrom">
-                            <option value="">Select date from</option>
-                        </select>
-                    </label>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <label asp-for="trainingHistory">
-                        <select asp-for="trainingHistory.Date" class="form-control"
-                                asp-items="@ViewBag.listofDates" id="dateTo">
-                            <option value="">Select date to</option>
-                        </select>
-                    </label>
-                </div>
-            </div>
-            <div class="col">
+        <div class="col-12 form-group row border-bottom pb-5">
+
+            <label class="col-sm-3" asp-for="Name">
+                <select asp-for="Name" class="form-control"
+                        asp-items="@ViewBag.listOfExercises" id="name">
+                    <option value="">Select exercise</option>
+                </select>
+            </label>
+
+            <label class="col-sm-3" asp-for="trainingHistory">
+                <select asp-for="trainingHistory.Date" class="form-control"
+                        asp-items="@ViewBag.listofDates" id="dateFrom">
+                    <option value="">Select date from</option>
+                </select>
+            </label>
+
+            <label class="col-sm-3" asp-for="trainingHistory">
+                <select asp-for="trainingHistory.Date" class="form-control"
+                        asp-items="@ViewBag.listofDates" id="dateTo">
+                    <option value="">Select date to</option>
+                </select>
+            </label>
+
+            <div class="col-sm-2">
                 <button type="button" class="btn btn-info text-white" id="Get">Render chart</button>
             </div>
         </div>
@@ -58,7 +50,6 @@
 
 @section Scripts{
     <script src="~/js/Chart.js"></script>
-    <script src="~/lib/jqueryui/jquery-ui.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>

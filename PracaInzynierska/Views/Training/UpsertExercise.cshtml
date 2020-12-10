@@ -1,5 +1,4 @@
-﻿@*@model PracaInzynierska.Models.TrainingHistory*@
-@model PracaInzynierska.Models.Exercises
+﻿@model PracaInzynierska.Models.Exercises
 
 <br />
 <h2 class="text-info">@(Model.ID != 0 ? "Edit" : "Create") Exercise</h2>
@@ -65,7 +64,7 @@
                 <label asp-for="Done"></label>
             </div>
             <div class="col-1">
-                <input asp-for="Done" class="form-control" />
+                <input asp-for="Done" class="form-control move-left"/>
                 <span asp-validation-for="Done" class="text-danger"></span>
             </div>
         </div>
