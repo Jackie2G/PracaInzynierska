@@ -3,15 +3,14 @@
     var name = $('#name option:selected').text();
 
     var dateFrom = $('#dateFrom option:selected').text();
-    var partsFrom = dateFrom.split(/[.]/);
-    var finalDateFrom = `${partsFrom[1]}.${partsFrom[0]}.${partsFrom[2]}`;
+    var partsFrom = dateFrom.split("/");
+    var finalDateFrom = `${partsFrom[0]}.${partsFrom[1]}.${partsFrom[2]}`;
 
     var dateTo = $('#dateTo option:selected').text();
-    var partsTo = dateTo.split(/[.]/);
-    var finalDateTo = `${partsTo[1]}.${partsTo[0]}.${partsTo[2]}`;
+    var partsTo = dateTo.split("/");
+    var finalDateTo = `${partsTo[0]}.${partsTo[1]}.${partsTo[2]}`;
 
     var test = '/Chart/GetDataToChart/' + name + '/' + dateFrom + '/' + dateTo;
-    console.log(test);
 
     $.getJSON('/Chart/GetDataToChart/' + name + '/' + finalDateFrom + '/' + finalDateTo, function (data) {
 
