@@ -24,8 +24,16 @@ namespace PracaInzynierska.Controllers
 
         public IActionResult Index()
         {
-            GetExercises();
-            return View();
+            var user = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (user != null)
+            {
+                GetExercises();
+                return View();
+            }
+            else
+            {
+                return Redirect("https://trainingplan.azurewebsites.net/Identity/Account/Register");
+            }
         }
 
         public void GetExercises(object selectedData = null)

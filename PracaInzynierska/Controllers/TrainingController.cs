@@ -40,7 +40,7 @@ namespace PracaInzynierska.Controllers
             }
             else
             {
-                return Redirect("https://localhost:44396/Identity/Account/Register");
+                return Redirect("https://trainingplan.azurewebsites.net/Identity/Account/Register");
             }
         }
 

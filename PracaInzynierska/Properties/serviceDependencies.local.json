@@ -11,6 +11,15 @@
     "mssql3": {
       "type": "mssql.local",
       "connectionId": "ApplicationContextConnection"
+    },
+    "secrets1": {
+      "type": "secrets.user"
+    },
+    "mssql4": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/trainingplandb/databases/TrainingPlan",
+      "type": "mssql.azure",
+      "connectionId": "trainingdb",
+      "secretStore": "LocalSecretsFile"
     }
   }
 }

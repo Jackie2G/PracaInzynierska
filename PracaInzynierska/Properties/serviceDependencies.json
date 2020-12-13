@@ -11,6 +11,18 @@
     "mssql3": {
       "type": "mssql",
       "connectionId": "ApplicationContextConnection"
+    },
+    "mssql4": {
+      "type": "mssql",
+      "connectionId": "trainingdb"
+    },
+    "mssql5": {
+      "type": "mssql",
+      "connectionId": "AccountConnection"
+    },
+    "secrets1": {
+      "type": "secrets",
+      "connectionId": "VaultUri"
     }
   }
 }
