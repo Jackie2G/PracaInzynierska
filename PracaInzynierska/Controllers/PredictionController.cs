@@ -6,6 +6,7 @@ using PracaInzynierska.Data;
 using PracaInzynierska.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -60,19 +61,18 @@ namespace PracaInzynierska.Controllers
 
             var finalList = list.Where(x => x.trainingHistory.Id.Equals(user) && x.Name.Equals(exerciseName)).ToList().OrderBy(x => x.trainingHistory.Date);
 
-            string weights = string.Join(" ", finalList.Select(x => x.Weight.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)).ToList());
-            string dates = string.Join(";", finalList.Select(x => x.trainingHistory.Date.ToString()).ToList());
+            string weights = string.Join(";", finalList.Select(x => x.Weight.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)).ToList());
+            string dates = string.Join(";", finalList.Select(x => x.trainingHistory.Date.ToString("MM/dd/yyyy")).ToList());
 
             var py = new PythonScript();
             var test = expectedDate.ToString();
-            var result = py.RunFromFile(weights, dates, expectedDate.ToString());
+            var result = py.RunFromFile(weights, dates, expectedDate.ToString("MM/dd/yyyy"));
 
-            var newResult = result.Replace("\r\n", string.Empty).Replace(".", ",");
-
+            var newResult = result.Replace("\r\n", string.Empty).Replace("[", string.Empty).Replace("]", string.Empty);
+            //var newResult = result.Replace(".")
             var endResult = Convert.ToDouble(newResult);
-
+            
             return Json(new { endResult });
-
         }
     }
 }

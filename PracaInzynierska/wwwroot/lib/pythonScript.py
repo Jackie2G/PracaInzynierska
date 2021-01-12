@@ -8,10 +8,6 @@ from sklearn.preprocessing import StandardScaler, PolynomialFeatures
 data = list(sys.argv[2].split(";"))
 volume = list(sys.argv[1].split(" "))
 
-for i in volume:
-    i = float(i)
-
-
 #expectedDate = datetime.strptime(sys.argv[3], '%d.%m.%Y %H:%M:%S')
 expectedDate = pd.to_datetime(sys.argv[3])
 #print(expectedDate)
